@@ -35,6 +35,33 @@ namespace LibraryProject.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Authors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Лев Толстой"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Фёдор Достоевский"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Антон Чехов"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Александр Пушкин"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Михаил Булгаков"
+                        });
                 });
 
             modelBuilder.Entity("LibraryProject.Models.Book", b =>
@@ -80,6 +107,73 @@ namespace LibraryProject.Migrations
                     b.HasIndex("CreatedById");
 
                     b.ToTable("Books");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AuthorId = 1,
+                            CoverImagePath = "/Uploads/365442.jpg",
+                            CreatedById = 1,
+                            Description = "Эпический роман о войне 1812 года",
+                            FilePath = "/Books/Atomic habits.pdf",
+                            PageNumber = 1225,
+                            Rating = 4.8m,
+                            Title = "Война и мир",
+                            YearPublished = 1869
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AuthorId = 2,
+                            CoverImagePath = "covers/crime_and_punishment.jpg",
+                            CreatedById = 1,
+                            Description = "Роман о преступлении и моральных терзаниях",
+                            FilePath = "books/crime_and_punishment.pdf",
+                            PageNumber = 672,
+                            Rating = 4.7m,
+                            Title = "Преступление и наказание",
+                            YearPublished = 1866
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AuthorId = 5,
+                            CoverImagePath = "covers/master_and_margarita.jpg",
+                            CreatedById = 1,
+                            Description = "Мистический роман о дьяволе в Москве",
+                            FilePath = "books/master_and_margarita.pdf",
+                            PageNumber = 480,
+                            Rating = 4.9m,
+                            Title = "Мастер и Маргарита",
+                            YearPublished = 1967
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AuthorId = 4,
+                            CoverImagePath = "covers/eugene_onegin.jpg",
+                            CreatedById = 1,
+                            Description = "Роман в стихах",
+                            FilePath = "books/eugene_onegin.pdf",
+                            PageNumber = 320,
+                            Rating = 4.6m,
+                            Title = "Евгений Онегин",
+                            YearPublished = 1833
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AuthorId = 3,
+                            CoverImagePath = "covers/cherry_orchard.jpg",
+                            CreatedById = 1,
+                            Description = "Пьеса о судьбе дворянства",
+                            FilePath = "books/cherry_orchard.pdf",
+                            PageNumber = 96,
+                            Rating = 4.5m,
+                            Title = "Вишнёвый сад",
+                            YearPublished = 1904
+                        });
                 });
 
             modelBuilder.Entity("LibraryProject.Models.BookGenre", b =>
@@ -103,6 +197,80 @@ namespace LibraryProject.Migrations
                     b.HasIndex("GenreId");
 
                     b.ToTable("BookGenres");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BookId = 1,
+                            GenreId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BookId = 1,
+                            GenreId = 3
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BookId = 2,
+                            GenreId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            BookId = 2,
+                            GenreId = 2
+                        },
+                        new
+                        {
+                            Id = 5,
+                            BookId = 2,
+                            GenreId = 3
+                        },
+                        new
+                        {
+                            Id = 6,
+                            BookId = 3,
+                            GenreId = 1
+                        },
+                        new
+                        {
+                            Id = 7,
+                            BookId = 3,
+                            GenreId = 4
+                        },
+                        new
+                        {
+                            Id = 8,
+                            BookId = 3,
+                            GenreId = 6
+                        },
+                        new
+                        {
+                            Id = 9,
+                            BookId = 4,
+                            GenreId = 1
+                        },
+                        new
+                        {
+                            Id = 10,
+                            BookId = 4,
+                            GenreId = 5
+                        },
+                        new
+                        {
+                            Id = 11,
+                            BookId = 5,
+                            GenreId = 2
+                        },
+                        new
+                        {
+                            Id = 12,
+                            BookId = 5,
+                            GenreId = 3
+                        });
                 });
 
             modelBuilder.Entity("LibraryProject.Models.Genre", b =>
@@ -119,6 +287,38 @@ namespace LibraryProject.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Genres");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Роман"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Драма"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Классика"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Фантастика"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Поэзия"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Сатира"
+                        });
                 });
 
             modelBuilder.Entity("LibraryProject.Models.User", b =>
@@ -141,6 +341,15 @@ namespace LibraryProject.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PasswordHash = "hashed_password",
+                            Role = "Admin",
+                            Username = "admin"
+                        });
                 });
 
             modelBuilder.Entity("LibraryProject.Models.Book", b =>
