@@ -152,5 +152,103 @@ namespace LibraryProject.Controllers
 
             return Ok(books);
         }
+
+        [HttpDelete("admin-delete")]
+        [Authorize(Roles ="Admin")]
+        public async Task<IActionResult> DeleteBook(int bookId)
+        {
+            if (bookId <= 0)
+            {
+                return BadRequest();
+            }
+
+            var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == bookId);
+
+            if (book == null)
+            {
+                return NotFound($"Книга c Id {bookId} не найдена.");
+            }
+
+            _context.Books.Remove(book);
+            await _context.SaveChangesAsync();
+
+            return Ok("Книга успешно удалена.");
+            
+        }
+
+        [HttpPost("admin-edit")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetBookForEdit(int bookId)
+        {
+            if (bookId <= 0)
+            {
+                return BadRequest("Неверный Id книги");
+            }
+
+            var book = await _context.Books
+                .Include(b => b.Author)
+                .Include(b => b.BookGenres)
+                 .ThenInclude(bg => bg.Genre)
+                .Where(b => b.Id == bookId)
+                .Select(b => new BookEditDTO
+                {
+                    Id = b.Id,
+                    Title = b.Title,
+                    AuthorId = b.AuthorId,
+                    AuthorName = b.Author.Name,
+                    Description = b.Description,
+                    PageNumber = b.PageNumber,
+                    YearPublished = b.YearPublished,
+                    Rating = b.Rating,
+                    CoverImagePath = b.CoverImagePath,
+                    FilePath = b.FilePath,
+                    GenreIds = b.BookGenres.Select(bg => bg.GenreId).ToList(),
+                    Genres = b.BookGenres.Select(bg => bg.Genre.Name).ToList()
+                }).FirstOrDefaultAsync();
+
+            if (book == null) return NotFound($"Книга с ID {bookId} не найдена.");
+            return Ok(book);
+        }
+
+        [HttpPut("admin-update/{id}")]
+        [Authorize(Roles ="Admin")]
+        public async Task<IActionResult> UpdateBookAfterEdit(int id, BookEditModelDTO model)
+        {
+            if (id <= 0)
+            {
+                return BadRequest("Неверный Id книги");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var book = await _context.Books
+                .Include(b => b.Author)
+                .Include(b => b.BookGenres)
+                .FirstOrDefaultAsync(b => b.Id == id);
+
+            if (book == null) return NotFound($"Книга с ID {id} не найдена.");
+
+            book.Title = model.Title;
+            book.AuthorId = model.AuthorId;  
+            book.Description = model.Description;
+            book.PageNumber = model.PageNumber;
+            book.YearPublished = model.YearPublished;
+            book.Rating = model.Rating;
+
+            _context.BookGenres.RemoveRange(book.BookGenres);
+            foreach (var genreId in model.GenreIds)
+            {
+                book.BookGenres.Add(new BookGenre { BookId = book.Id, GenreId = genreId });
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok("Книга успешно обновлена.");
+        }
+
+
+
     }
 }
