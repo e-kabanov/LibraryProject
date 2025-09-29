@@ -1,5 +1,6 @@
 ﻿using LibraryProject.Data;
 using LibraryProject.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -123,6 +124,33 @@ namespace LibraryProject.Controllers
 
             return Ok(books);
             
+        }
+
+        [HttpGet("admin")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllBooksForAdmin()
+        {
+            var books = await _context.Books
+            .Include(b => b.Author)
+            .Include(b => b.CreatedBy)
+            .Include(b => b.BookGenres)
+                .ThenInclude(bg => bg.Genre)
+            .Select(b => new AdminBookDTO
+            {
+                Id = b.Id,
+                Title = b.Title,
+                AuthorName = b.Author.Name,
+                Genres = string.Join(", ", b.BookGenres.Select(bg => bg.Genre.Name)),
+                CoverImagePath = b.CoverImagePath
+            })
+            .ToArrayAsync();
+
+            if (books.Count() == 0)
+            {
+                return NotFound("Книги не найдены.");
+            }
+
+            return Ok(books);
         }
     }
 }
