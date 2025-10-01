@@ -1,4 +1,5 @@
-﻿using LibraryProject.Models;
+﻿using LibraryProject.DTOs;
+using LibraryProject.Models;
 
 namespace LibraryProject.Services
 {

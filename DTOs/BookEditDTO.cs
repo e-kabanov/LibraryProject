@@ -1,4 +1,4 @@
-﻿namespace LibraryProject.Models
+﻿namespace LibraryProject.DTOs
 {
     public class BookEditDTO
     {
@@ -19,7 +19,7 @@
         public string FilePath { get; set; }
 
         // Жанры
-        public List<int> GenreIds { get; set; }
-        public List<string> Genres { get; set; }
+        public List<int> GenreIds { get; set; } = new List<int>();
+        public List<string> Genres { get; set; } = new List<string>();
     }
 }

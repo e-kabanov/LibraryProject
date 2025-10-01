@@ -1,4 +1,4 @@
-﻿namespace LibraryProject.Models
+﻿namespace LibraryProject.DTOs
 {
     public class BookEditModelDTO
     {
@@ -8,6 +8,6 @@
         public int PageNumber { get; set; }
         public int YearPublished { get; set; }
         public decimal Rating { get; set; }
-        public List<int> GenreIds { get; set; }
+        public List<int> GenreIds { get; set; } = new List<int>();
     }
 }
